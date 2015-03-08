@@ -1,0 +1,34 @@
+{
+  "name": "webshotgun",
+  "version": "0.0.1",
+  "description": "Take screenshots of websites",
+  "main": "index.js",
+  "bin": {
+    "webshotgun": "cli.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bitjson/webshotgun"
+  },
+  "keywords": [
+    "node",
+    "slimerjs",
+    "webshot",
+    "screenshot"
+  ],
+  "author": "Jason Dreyzehner <jason@dreyzehner.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitjson/webshotgun/issues"
+  },
+  "homepage": "https://github.com/bitjson/webshotgun",
+  "dependencies": {
+    "async": "^0.9.0",
+    "minimist": "^1.1.0",
+    "slimerjs": "^0.9.5"
+  }
+}
