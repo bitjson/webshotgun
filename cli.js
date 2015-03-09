@@ -1,40 +1,45 @@
 #! /usr/bin/env node
 var webshotgun = require('./');
-
 var n = require('os').EOL;
 var usage = n+
 'Usage:' +n+
 '   webshotgun [options] <url> [<url> ...]' +n+
 ' ' +n+
 'Arguments:' +n+
-'   <url>         One or many space-delimited web URLs.' +n+
+'   <url>           One or many space-delimited web URLs.' +n+
 ' ' +n+
 'Options:' +n+
-'   -h, --help    Show this help.' +n+
-'   -d, --dest    A directory in which to save screenshots. [default: ./webshotgun]' +n+
-'   --version     Show version.' +n+
+'   -h, --help      Show this help.' +n+
+'   -d, --dest      A directory in which to save screenshots. [default: ./webshotgun]' +n+
+'   -q, --quiet     Silence standard output.' +n+
+'   --version       Show version.' +n+
 ' ' +n+
-'See <https://github.com/bitjson/webshotgun> for details.'+n+
+'See https://github.com/bitjson/webshotgun for details.'+n+
 ' ' +n;
 
 var minimist = require('minimist');
-var argv = require('minimist')(process.argv.slice(2));
+var booleans = ['h', 'help', 'q', 'quiet', 'version'];
+var argv = require('minimist')(process.argv.slice(2), {boolean: booleans});
 
-if(argv.hasOwnProperty('h') || argv.hasOwnProperty('help')) {
+function isSupportedArg(elem){
+  return ['_', 'd', 'dest'].concat(booleans).indexOf(elem) != -1;
+}
+
+if(argv['h'] ||
+   argv['help'] ||
+   !argv.hasOwnProperty('_') ||
+   !Object.keys(argv).every(isSupportedArg)) {
   process.stdout.write(usage);
   process.exit();
 }
 
-if(argv.hasOwnProperty('version')) {
+if(argv['version']) {
   process.stdout.write(require('./package.json').version + ' \n');
   process.exit();
 }
 
-var urls = [];
-if(argv.hasOwnProperty('_')){
-  urls = argv['_'];
-}
-
-var dest = argv['dest'] || argv['d'] || './webshotgun';
-
-webshotgun.shoot(urls, dest);
+webshotgun.shoot({
+  dest: argv['dest'] || argv['d'],
+  urls: argv['_'],
+  quiet: argv['q'] || argv['quiet']
+});
