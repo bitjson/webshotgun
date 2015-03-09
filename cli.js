@@ -1,15 +1,21 @@
 #! /usr/bin/env node
 var webshotgun = require('./');
+var fs = require('fs');
+var path = require('path');
+
 var n = require('os').EOL;
 var usage = n+
 'Usage:' +n+
 '   webshotgun [options] <url> [<url> ...]' +n+
+'   webshotgun --file=<file>' +n+
 ' ' +n+
 'Arguments:' +n+
 '   <url>           One or more space-delimited URLs to screenshot.' +n+
+'   <file>          A JSON file containing an array of URLs to screenshot.' +n+
 ' ' +n+
 'Options:' +n+
-'   -d, --dest      A directory in which to save screenshots. [default: \'./webshotgun\']' +n+
+'   -d, --dest      The directory in which to save screenshots. [default: \'./webshotgun\']' +n+
+'   -f, --file      Define urls with a JSON file.' +n+
 '   -h, --help      Show this help.' +n+
 '   -q, --quiet     Silence standard output.' +n+
 '   -v, --version   Show version.' +n+
@@ -20,11 +26,11 @@ var booleans = ['help', 'h', 'quiet', 'q', 'version', 'v'];
 var argv = require('minimist')(process.argv.slice(2), {boolean: booleans});
 
 function isSupportedArg(elem){
-  return ['_', 'd', 'dest'].concat(booleans).indexOf(elem) != -1;
+  return ['_', 'd', 'dest', 'f', 'file'].concat(booleans).indexOf(elem) != -1;
 }
 
 if(argv['help'] || argv['h'] ||
-   !argv.hasOwnProperty('_') ||
+   !(argv.hasOwnProperty('_') || argv.hasOwnProperty['f'] || argv.hasOwnProperty['file']) ||
    !Object.keys(argv).every(isSupportedArg)) {
   process.stdout.write(usage);
   process.exit();
@@ -35,8 +41,16 @@ if(argv['version'] || argv['v']) {
   process.exit();
 }
 
+urls = false;
+if(argv.hasOwnProperty('f')){
+  urls = JSON.parse(String(fs.readFileSync(path.resolve(argv['f']), 'utf8')))
+}
+if(argv.hasOwnProperty('file')){
+  urls = JSON.parse(String(fs.readFileSync(path.resolve(argv['file']), 'utf8')))
+}
+
 webshotgun.shoot({
   dest: argv['dest'] || argv['d'],
-  urls: argv['_'],
+  urls: urls || argv['_'],
   quiet: argv['q'] || argv['quiet']
 });
