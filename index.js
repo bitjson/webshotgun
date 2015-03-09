@@ -2,10 +2,6 @@ var path = require('path');
 var slimerjs = require('slimerjs');
 var binPath = slimerjs.path;
 var childProcess = require('child_process');
-var childArgs = [
-  path.join(__dirname, 'webshotgun.js'),
-  '--ssl-protocol=any' //ignore ssl issues
-];
 
 webshotgun = {
   getFirefoxPath: function(){
@@ -27,6 +23,12 @@ webshotgun = {
   },
 
   shoot: function(urlArray, outputDir){
+    var childArgs = [
+      path.join(__dirname, 'webshotgun.js'),
+      '--ssl-protocol=any', //ignore ssl issues
+      urlArray,
+      outputDir + '/'
+    ];
     childProcess.execFile(binPath, childArgs, {env: {'SLIMERJSLAUNCHER' : webshotgun.getFirefoxPath()}}, function(err, stdout, stderr) {
       if(err){
         if(err.code === 255){

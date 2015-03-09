@@ -1,8 +1,8 @@
+var urls = phantom.args[0].split(',');
+var outputDir = phantom.args[1];
+
 var webpage = require('webpage');
 var async = require('./node_modules/async/lib/async.js');
-
-var outputDir = 'output/';
-var urls = ['https://bitpay.com', 'https://google.com'];
 
 async.each(urls, function(url, callback) {
   capture(url, outputDir + prettyName(url) + '.png', callback);

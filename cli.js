@@ -3,15 +3,16 @@ var webshotgun = require('./');
 
 var n = require('os').EOL;
 var usage = n+
-'Usage: webshot [options] [<url> <url> <url>] [<dest>]' +n+
+'Usage:' +n+
+'   webshotgun [options] <url> [<url> ...]' +n+
 ' ' +n+
 'Arguments:' +n+
-'  <url>   A web URL.' +n+
-'  <dest>  A directory to save the screenshots.' +n+
+'   <url>         One or many space-delimited web URLs.' +n+
 ' ' +n+
 'Options:' +n+
-'  -h, --help                  Show this help.' +n+
-'  -v, --version               Show version.' +n+
+'   -h, --help    Show this help.' +n+
+'   -d, --dest    A directory in which to save screenshots. [default: ./webshotgun]' +n+
+'   --version     Show version.' +n+
 ' ' +n+
 'See <https://github.com/bitjson/webshotgun> for details.'+n+
 ' ' +n;
@@ -24,8 +25,8 @@ if(argv.hasOwnProperty('h') || argv.hasOwnProperty('help')) {
   process.exit();
 }
 
-if(argv.hasOwnProperty('v') || argv.hasOwnProperty('version')) {
-  process.stdout.write('todo');
+if(argv.hasOwnProperty('version')) {
+  process.stdout.write(require('./package.json').version + ' \n');
   process.exit();
 }
 
@@ -34,8 +35,6 @@ if(argv.hasOwnProperty('_')){
   urls = argv['_'];
 }
 
-var outputDir = argv['outputDir'] || argv['o'] || 'output';
+var dest = argv['dest'] || argv['d'] || './webshotgun';
 
-console.dir(argv);
-console.log('TODO: actually use these arguements...')
-webshotgun.shoot(urls, outputDir);
+webshotgun.shoot(urls, dest);
