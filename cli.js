@@ -15,7 +15,7 @@ var usage = n+
 ' ' +n+
 'Options:' +n+
 '   -d, --dest      The directory in which to save screenshots. [default: \'./webshotgun\']' +n+
-'   -f, --file      Define urls with a JSON file.' +n+
+'   -f, --file      Define urls with a JSON file, format: ["URL", "URL", ... ]' +n+
 '   -h, --help      Show this help.' +n+
 '   -q, --quiet     Silence standard output.' +n+
 '   -v, --version   Show version.' +n+
@@ -29,9 +29,16 @@ function isSupportedArg(elem){
   return ['_', 'd', 'dest', 'f', 'file'].concat(booleans).indexOf(elem) != -1;
 }
 
-if(argv['help'] || argv['h'] ||
-   !(argv.hasOwnProperty('_') || argv.hasOwnProperty['f'] || argv.hasOwnProperty['file']) ||
-   !Object.keys(argv).every(isSupportedArg)) {
+if(
+  // has -h or --help arguement
+  argv['help'] || argv['h'] ||
+  // no arguements given
+  argv['_'] && !argv['_'][0] && !argv.hasOwnProperty('f') && !argv.hasOwnProperty('file') ||
+  // empty file arguement
+  argv.hasOwnProperty('f') && !argv['f'][0] || argv.hasOwnProperty('file') && !argv['file'][0] ||
+  // has unsupported arguements
+  !Object.keys(argv).every(isSupportedArg)
+   ){
   process.stdout.write(usage);
   process.exit();
 }
