@@ -1,5 +1,5 @@
 var path = require('path');
-var slimerjs = require('slimerjs');
+var slimerjs = require('slimerjs-edge');
 var binPath = slimerjs.path;
 var childProcess = require('child_process');
 
@@ -31,6 +31,7 @@ webshotgun = {
     var childArgs = [
       path.join(__dirname, 'webshotgun.js'),
       '--ssl-protocol=any', //ignore ssl issues
+      '--config=' + path.join(__dirname, 'slimerConfig.json'),
       urls,
       dest + '/',
       quiet

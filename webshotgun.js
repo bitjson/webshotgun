@@ -20,11 +20,11 @@ async.each(urls, function(url, callback) {
 
 function capture(url, name, callback){
   var page = webpage.create();
+  page.viewportSize = {
+    width:2000,
+    height: 768
+  };
   page.open(url, function (status) {
-      page.viewportSize = {
-        width:2000,
-        height: 768
-      };
       page.render(name);
       say('   ' + url + ' – saved to: ' + name);
       page.close();

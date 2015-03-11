@@ -29,6 +29,6 @@
   "dependencies": {
     "async": "^0.9.0",
     "minimist": "^1.1.0",
-    "slimerjs": "^0.9.5"
+    "slimerjs-edge": "^0.10.0-pre-2"
   }
 }
