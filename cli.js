@@ -18,6 +18,7 @@ var usage = n+
 '   -f, --file      Define urls with a JSON file, format: ["URL", "URL", ... ]' +n+
 '   -h, --help      Show this help.' +n+
 '   -q, --quiet     Silence standard output.' +n+
+'   -t, --tree      Output screenshots into a folder tree matching the URL structure.' +n+
 '   -v, --version   Show version.' +n+
 ' ' +n;
 
@@ -59,5 +60,6 @@ if(argv.hasOwnProperty('file')){
 webshotgun.shoot({
   dest: argv['dest'] || argv['d'],
   urls: urls || argv['_'],
-  quiet: argv['q'] || argv['quiet']
+  quiet: argv['q'] || argv['quiet'],
+  tree: argv['t'] || argv['tree']
 });

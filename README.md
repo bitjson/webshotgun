@@ -38,6 +38,7 @@ Options:
    -f, --file      Define urls with a JSON file, format: ["URL", "URL", ... ]
    -h, --help      Show this help.
    -q, --quiet     Silence standard output.
+   -t, --tree      Output screenshots into a folder tree matching the URL structure.
    -v, --version   Show version.
 
 ```

@@ -1,6 +1,7 @@
 var urls = phantom.args[0].split(',');
 var dest = phantom.args[1];
 var quiet = (phantom.args[2] == 'true');
+var tree = (phantom.args[3] == 'true');
 
 var webpage = require('webpage');
 var async = require('./node_modules/async/lib/async.js');
@@ -33,7 +34,11 @@ function capture(url, name, callback){
 }
 
 function prettyName(url){
-  return url.replace('https://','').replace('http://','').replace('www.','').replace(/\/$/, "").replace('.','_').replace('/','-');
+  var clean = url.replace('https://','').replace('http://','').replace('www.','').replace(/\/$/, "").replace(/\./g,'_');
+  if(tree) {
+    return clean;
+  }
+  return clean.replace(/\//g,'-');
 }
 
 function say(what){

@@ -27,6 +27,7 @@ webshotgun = {
     var urls = args.urls;
     if(!urls) throw new Error('Must provide URLs to shoot()');
     var quiet = args.quiet || false;
+    var tree = args.tree || false;
 
     var childArgs = [
       path.join(__dirname, 'webshotgun.js'),
@@ -34,7 +35,8 @@ webshotgun = {
       '--config=' + path.join(__dirname, 'slimerConfig.json'),
       urls,
       dest + '/',
-      quiet
+      quiet,
+      tree
     ];
     childProcess.execFile(binPath, childArgs, {env: {'SLIMERJSLAUNCHER' : webshotgun.getFirefoxPath()}}, function(err, stdout, stderr) {
       if(err){
