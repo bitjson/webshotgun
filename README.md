@@ -1,7 +1,6 @@
 # webshotgun
 [![npm version](https://badge.fury.io/js/webshotgun.svg)](https://www.npmjs.com/package/webshotgun)
-
-<h4>Webshotgun allows you to rapidly take high fidelity screenshots of websites.<h4>
+<h4>Webshotgun allows you to rapidly take high fidelity screenshots of websites.</h4>
 
 Webshotgun uses [SlimerJS](https://slimerjs.org/), scripting for Firefox. Because SlimerJS always uses a very recent version of firefox, modern CSS support and rendering is much more reliable than tools based on [PhantomJS](http://phantomjs.org/).
 
