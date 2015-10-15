@@ -1,6 +1,6 @@
 {
   "name": "webshotgun",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Take high fidelity screenshots of websites.",
   "main": "index.js",
   "bin": {
