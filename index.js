@@ -1,9 +1,11 @@
+'use strict';
+
 var path = require('path');
 var slimerjs = require('slimerjs-edge');
 var binPath = slimerjs.path;
 var childProcess = require('child_process');
 
-webshotgun = {
+var webshotgun = {
   getFirefoxPath: function(){
     if(process.platform === 'linux'){
       // Linux
@@ -25,9 +27,12 @@ webshotgun = {
   shoot: function(args){
     var dest = args.dest || './webshotgun';
     var urls = args.urls;
-    if(!urls) throw new Error('Must provide URLs to shoot()');
+    if(!urls) {
+      throw new Error('Must provide URLs to shoot()');
+    }
     var quiet = args.quiet || false;
     var tree = args.tree || false;
+    var width = args.width || 2000;
 
     var childArgs = [
       path.join(__dirname, 'webshotgun.js'),
@@ -36,7 +41,8 @@ webshotgun = {
       urls,
       dest + '/',
       quiet,
-      tree
+      tree,
+      width
     ];
     childProcess.execFile(binPath, childArgs, {env: {'SLIMERJSLAUNCHER' : webshotgun.getFirefoxPath()}}, function(err, stdout, stderr) {
       if(err){

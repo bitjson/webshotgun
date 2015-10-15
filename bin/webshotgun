@@ -1,0 +1,91 @@
+#! /usr/bin/env node
+
+'use strict';
+
+var webshotgun = require('../');
+var program = require('commander');
+var fs = require('fs');
+var colors = require('colors');
+
+program
+  .version('1.0.0')
+  .usage('[options] <urls ...>')
+  .option('-f, --file <file>', 'Read urls from a JSON – ["URL", "URL", ... ] – or CSV file. (URLs separated by whitespace or commas.)')
+  .option('-d, --dest <path>', 'Set the directory in which to save screenshots. [default: \'./webshotgun\']')
+  .option('-w, --width', 'Set the viewport width (in pixels) at which to take screenshots. [default: \'1500\']')
+  .option('-t, --tree', 'Organize screenshots into a folder tree matching the URL structure.')
+  .option('-q, --quiet', 'Silence standard output.');
+
+program.on('--help', function() {
+  console.log('  Examples:');
+  console.log('');
+  console.log('    $ webshotgun google.com reddit.com nodejs.org');
+  console.log('    $ webshotgun --file urls.json --tree');
+  console.log('    $ webshotgun --file urls.csv');
+  console.log('    $ webshotgun --file urls.txt --width 500 --dest mobile-shots');
+  console.log('');
+});
+
+program.parse(process.argv);
+
+// set defaults
+var options = {
+  file: false,
+  dest: './webshotgun',
+  width: '1500',
+  tree: false,
+  quiet: false
+};
+
+// override defaults with user input
+for (var id in options) {
+  if (program[id]) {
+    options[id] = program[id];
+  }
+}
+
+var urls = [];
+if(options.file){
+  var file = fs.readFileSync(options.file, 'utf8');
+  try{
+    urls = JSON.parse(file);
+  } catch(err){
+    // not JSON, try comma, line-break, or space-delimited list
+    console.log('not JSON');
+    console.log(file);
+    urls = file.split(/[,\s]/);
+  }
+}
+
+// concat any urls passed in as args, filter empty strings from split
+urls = urls.concat(program.args);
+
+var cleanedUrls = [];
+for (var i = 0; i < urls.length; i++){
+  if(urls[i].trim() !== ''){
+    if(urls[i].toLowerCase().indexOf('http') !== 0){
+      console.log(urls[i], 'is missing a protocol identifier, using `http://`');
+      cleanedUrls.push('http://' + urls[i]);
+    } else{
+      cleanedUrls.push(urls[i]);
+    }
+  }
+}
+
+console.log(cleanedUrls);
+
+if (!process.argv.slice(2).length || urls.length < 1) {
+  program.help(blue);
+}
+
+function blue(txt) {
+  return colors.blue(txt);
+}
+
+webshotgun.shoot({
+  dest: options.dest,
+  urls: cleanedUrls,
+  quiet: options.quiet,
+  tree: options.tree,
+  width: options.width
+});
