@@ -1,7 +1,7 @@
 'use strict';
 
 var path = require('path');
-var slimerjs = require('slimerjs-edge');
+var slimerjs = require('slimerjs');
 var binPath = slimerjs.path;
 var childProcess = require('child_process');
 
