@@ -52,6 +52,8 @@ webshotgun.shoot({
     quiet: true,
     tree: true,
     width: 2000
+}, function() {
+  console.log('Capture complete.')
 });
 ```
 

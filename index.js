@@ -24,7 +24,7 @@ var webshotgun = {
     }
   },
 
-  shoot: function(args){
+  shoot: function(args, callback){
     var dest = args.dest || './webshotgun';
     var urls = args.urls;
     if(!urls) {
@@ -54,6 +54,7 @@ var webshotgun = {
       if(stderr){
         console.error('stderr: ', stderr);
       }
+      if(callback) callback();
     }).stdout.pipe(process.stdout);
   }
 };
